@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scanner Resi</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      padding-top: 30px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 550px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    input {
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 15px;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 4px;
+      text-align: center;
+    }
+
+    th {
+      background: #eee;
+    }
+
+    .notif {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      background: #ffdddd;
+      color: red;
+      text-align: center;
+    }
+
+    #count {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Scanner Resi</h2>
+
+  <!-- PILIH TOKO -->
+  <select id="tokoSelect">
+    <option value="TOKOA">TOKO A</option>
+    <option value="TOKOB">TOKO B</option>
+    <option value="TOKOC">TOKO C</option>
+    <option value="TOKOD">TOKO D</option>
+    <option value="TOKOE">TOKO E</option>
+  </select>
+
+  <!-- INPUT -->
+  <input type="text" id="resiInput" placeholder="Scan Resi..." autofocus>
+
+  <div id="notif" class="notif"></div>
+
+  <!-- VIEW SHEET -->
+  <select id="sheetSelect">
+    <option value="TOKOA">TOKO A</option>
+    <option value="TOKOB">TOKO B</option>
+    <option value="TOKOC">TOKO C</option>
+    <option value="TOKOD">TOKO D</option>
+    <option value="TOKO E">TOKO E</option>
+    <option value="SEMUA">SEMUA</option>
+  </select>
+
+  <button onclick="downloadExcel()">Download Excel</button>
+
+  <div id="count"></div>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>SPX</th>
+        <th>ANTERAJA</th>
+        <th>JNT</th>
+        <th>JNE</th>
+        <th>SICEPAT</th>
+        <th>GTL</th>
+        <th>CARGO</th>
+        <th>INSTAN</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <audio id="errorSound" src="error.mp3"></audio>
+</div>
+
+<script>
+const input = document.getElementById("resiInput");
+
+function showNotif(msg) {
+  let notif = document.getElementById("notif");
+  notif.innerText = msg;
+  notif.style.display = "block";
+
+  setTimeout(() => notif.style.display = "none", 2000);
+}
+
+// LOAD DATA
+async function loadData() {
+  let sheet = document.getElementById("sheetSelect").value;
+
+  let res = await fetch(`http://localhost:5000/sheet/${sheet}`);
+  let data = await res.json();
+
+  let tbody = document.querySelector("#dataTable tbody");
+  tbody.innerHTML = "";
+
+  let count = {
+    SPX:0, ANTERAJA:0, JNT:0, JNE:0,
+    SICEPAT:0, GTL:0, CARGO:0, INSTAN:0
+  };
+
+  data.forEach(row => {
+    let tr = document.createElement("tr");
+
+    Object.keys(count).forEach(k => {
+      let td = document.createElement("td");
+      td.innerText = row[k] || "";
+      tr.appendChild(td);
+
+      if (row[k]) count[k]++;
+    });
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("count").innerText =
+    Object.entries(count).map(([k,v]) => `${k}:${v}`).join(" | ");
+}
+
+document.getElementById("sheetSelect").addEventListener("change", loadData);
+
+// SCAN
+input.addEventListener("keydown", async function(e) {
+  if (e.key === "Enter") {
+    let resi = this.value.trim();
+    let toko = document.getElementById("tokoSelect").value;
+
+    if (!resi) return;
+
+    let res = await fetch("http://localhost:5000/add", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ resi, toko })
+    });
+
+    let result = await res.json();
+
+    if (result.status === "duplicate") {
+      document.getElementById("errorSound").play();
+      showNotif("Resi sudah ada!");
+    }
+
+    this.value = "";
+    this.focus();
+
+    loadData();
+  }
+});
+
+// DOWNLOAD
+function downloadExcel() {
+  window.open("http://localhost:5000/export");
+}
+
+loadData();
+</script>
+
+</body>
+</html>
