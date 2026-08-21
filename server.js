@@ -8,6 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
 const FILE_NAME = path.join(process.cwd(), "data.xlsx");
 
 const SHEETS = ["TOKOA","TOKOB","TOKOC","TOKOD","TOKOE","SEMUA"];
