@@ -1,215 +1,1430 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
+
 <head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Scanner Resi</title>
+
   <style>
-    body {
-      font-family: Arial;
-      background: #f4f6f8;
-      display: flex;
-      justify-content: center;
-      padding-top: 30px;
-    }
 
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      width: 550px;
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    select, input, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+    * {
       box-sizing: border-box;
     }
 
-    input {
+    body {
+
+      margin: 0;
+
+      font-family: Arial, sans-serif;
+
+      background: #f4f6f8;
+
+      min-height: 100vh;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding: 20px;
+
+    }
+
+    /* ==========================================
+       LOGIN
+       ========================================== */
+
+    #loginPage {
+
+      width: 100%;
+
+      max-width: 400px;
+
+    }
+
+    .login-card {
+
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.08);
+
+    }
+
+    .login-card h1 {
+
       text-align: center;
+
+      margin-bottom: 5px;
+
+    }
+
+    .login-card p {
+
+      text-align: center;
+
+      color: #777;
+
+      margin-bottom: 25px;
+
+    }
+
+    /* ==========================================
+       APP
+       ========================================== */
+
+    #appPage {
+
+      display: none;
+
+      width: 100%;
+
+      max-width: 1000px;
+
+    }
+
+    .container {
+
+      background: white;
+
+      padding: 25px;
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.08);
+
+    }
+
+    .header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 20px;
+
+      gap: 15px;
+
+    }
+
+    .header h2 {
+
+      margin: 0;
+
+    }
+
+    .user-info {
+
+      text-align: right;
+
+      font-size: 13px;
+
+      color: #666;
+
+    }
+
+    /* ==========================================
+       FORM
+       ========================================== */
+
+    select,
+    input,
+    button {
+
+      width: 100%;
+
+      padding: 12px;
+
+      margin-top: 10px;
+
+      border-radius: 8px;
+
+      border: 1px solid #ccc;
+
+      font-size: 14px;
+
+    }
+
+    input {
+
+      text-align: center;
+
       font-weight: bold;
+
       letter-spacing: 2px;
+
+      font-size: 18px;
+
     }
 
     button {
+
+      border: none;
+
       background: #4CAF50;
+
       color: white;
+
       cursor: pointer;
+
+      font-weight: bold;
+
+    }
+
+    button:hover {
+
+      opacity: 0.9;
+
+    }
+
+    .logout {
+
+      width: auto;
+
+      margin-top: 0;
+
+      background: #dc3545;
+
+      padding: 8px 15px;
+
+    }
+
+    /* ==========================================
+       NOTIFICATION
+       ========================================== */
+
+    .notif {
+
+      margin-top: 10px;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      display: none;
+
+      text-align: center;
+
+      font-weight: bold;
+
+    }
+
+    .notif.error {
+
+      background: #ffdddd;
+
+      color: #b00000;
+
+    }
+
+    .notif.success {
+
+      background: #ddffdd;
+
+      color: #087f23;
+
+    }
+
+    /* ==========================================
+       COUNT
+       ========================================== */
+
+    #count {
+
+      margin-top: 20px;
+
+      font-weight: bold;
+
+      text-align: center;
+
+      line-height: 1.8;
+
+    }
+
+    /* ==========================================
+       TABLE
+       ========================================== */
+
+    .table-wrapper {
+
+      overflow-x: auto;
+
     }
 
     table {
+
       width: 100%;
+
       margin-top: 15px;
+
       border-collapse: collapse;
+
       font-size: 11px;
+
+      min-width: 750px;
+
     }
 
-    th, td {
+    th,
+    td {
+
       border: 1px solid #ddd;
-      padding: 4px;
+
+      padding: 6px;
+
       text-align: center;
+
     }
 
     th {
+
       background: #eee;
+
     }
 
-    .notif {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      display: none;
-      background: #ffdddd;
-      color: red;
-      text-align: center;
+    /* ==========================================
+       RESPONSIVE
+       ========================================== */
+
+    @media (max-width: 600px) {
+
+      .header {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+      }
+
+      .user-info {
+
+        text-align: left;
+
+      }
+
+      .logout {
+
+        width: 100%;
+
+      }
+
     }
 
-    #count {
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
   </style>
+
 </head>
+
 <body>
 
-<div class="container">
-  <h2>Scanner Resi</h2>
+<!-- ==================================================
+     LOGIN PAGE
+     ================================================== -->
 
-  <!-- PILIH TOKO -->
-  <select id="tokoSelect">
-    <option value="TOKOA">TOKO A</option>
-    <option value="TOKOB">TOKO B</option>
-    <option value="TOKOC">TOKO C</option>
-    <option value="TOKOD">TOKO D</option>
-    <option value="TOKOE">TOKO E</option>
-  </select>
+<div id="loginPage">
 
-  <!-- INPUT -->
-  <input type="text" id="resiInput" placeholder="Scan Resi..." autofocus>
+  <div class="login-card">
 
-  <div id="notif" class="notif"></div>
+    <h1>Scanner Resi</h1>
 
-  <!-- VIEW SHEET -->
-  <select id="sheetSelect">
-    <option value="TOKOA">TOKO A</option>
-    <option value="TOKOB">TOKO B</option>
-    <option value="TOKOC">TOKO C</option>
-    <option value="TOKOD">TOKO D</option>
-    <option value="TOKO E">TOKO E</option>
-    <option value="SEMUA">SEMUA</option>
-  </select>
+    <p>Silakan login untuk melanjutkan</p>
 
-  <button onclick="downloadExcel()">Download Excel</button>
+    <input
+      type="text"
+      id="username"
+      placeholder="Username"
+      autocomplete="username"
+    >
 
-  <div id="count"></div>
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
-  <table id="dataTable">
-    <thead>
-      <tr>
-        <th>SPX</th>
-        <th>ANTERAJA</th>
-        <th>JNT</th>
-        <th>JNE</th>
-        <th>SICEPAT</th>
-        <th>GTL</th>
-        <th>CARGO</th>
-        <th>INSTAN</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <button onclick="login()">
+      LOGIN
+    </button>
 
-  <audio id="errorSound" src="error.mp3"></audio>
+    <div
+      id="loginNotif"
+      class="notif error"
+    ></div>
+
+  </div>
+
 </div>
 
-<script>
-const input = document.getElementById("resiInput");
 
-function showNotif(msg) {
-  let notif = document.getElementById("notif");
-  notif.innerText = msg;
+<!-- ==================================================
+     APPLICATION PAGE
+     ================================================== -->
+
+<div id="appPage">
+
+  <div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <div>
+
+        <h2>Scanner Resi</h2>
+
+        <div
+          class="user-info"
+          id="userInfo"
+        ></div>
+
+      </div>
+
+      <button
+        class="logout"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+
+    <!-- ==================================================
+         TOKO
+         HANYA ROLE 2
+         ================================================== -->
+
+    <div id="tokoContainer">
+
+      <label>
+        Pilih Toko
+      </label>
+
+      <select id="tokoSelect">
+
+        <option value="TOKOA">
+          TOKO A
+        </option>
+
+        <option value="TOKOB">
+          TOKO B
+        </option>
+
+        <option value="TOKOC">
+          TOKO C
+        </option>
+
+        <option value="TOKOD">
+          TOKO D
+        </option>
+
+        <option value="TOKOE">
+          TOKO E
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- ==================================================
+         INPUT RESI
+         ================================================== -->
+
+    <input
+      type="text"
+      id="resiInput"
+      placeholder="Scan Resi..."
+      autocomplete="off"
+      autofocus
+    >
+
+
+    <!-- NOTIFICATION -->
+
+    <div
+      id="notif"
+      class="notif"
+    ></div>
+
+
+    <!-- ==================================================
+         VIEW SHEET
+         ================================================== -->
+
+    <label>
+      Lihat Data
+    </label>
+
+    <select id="sheetSelect">
+
+      <!-- ROLE 1 hanya SEMUA -->
+
+      <option value="SEMUA">
+        SEMUA
+      </option>
+
+      <!-- ROLE 2 akan ditambahkan melalui JS -->
+
+    </select>
+
+
+    <!-- DOWNLOAD -->
+
+    <button onclick="downloadExcel()">
+      Download Excel
+    </button>
+
+
+    <!-- COUNT -->
+
+    <div id="count"></div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-wrapper">
+
+      <table id="dataTable">
+
+        <thead>
+
+          <tr>
+
+            <th>SPX</th>
+
+            <th>ANTERAJA</th>
+
+            <th>JNT</th>
+
+            <th>JNE</th>
+
+            <th>SICEPAT</th>
+
+            <th>GTL</th>
+
+            <th>CARGO</th>
+
+            <th>INSTAN</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody></tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ERROR SOUND -->
+
+    <audio
+      id="errorSound"
+      src="error.mp3"
+    ></audio>
+
+  </div>
+
+</div>
+
+
+<script>
+
+// ======================================================
+// GLOBAL
+// ======================================================
+
+const API = "";
+
+const input =
+  document.getElementById("resiInput");
+
+let currentUser = null;
+
+
+// ======================================================
+// NOTIFICATION
+// ======================================================
+
+function showNotif(
+  message,
+  type = "error"
+) {
+
+  const notif =
+    document.getElementById("notif");
+
+  notif.innerText = message;
+
+  notif.className =
+    `notif ${type}`;
+
   notif.style.display = "block";
 
-  setTimeout(() => notif.style.display = "none", 2000);
+  setTimeout(() => {
+
+    notif.style.display = "none";
+
+  }, 2000);
+
 }
 
-// LOAD DATA
-async function loadData() {
-  let sheet = document.getElementById("sheetSelect").value;
 
-  let res = await fetch(`http://localhost:5000/sheet/${sheet}`);
-  let data = await res.json();
+// ======================================================
+// LOGIN NOTIFICATION
+// ======================================================
 
-  let tbody = document.querySelector("#dataTable tbody");
-  tbody.innerHTML = "";
+function showLoginNotif(message) {
 
-  let count = {
-    SPX:0, ANTERAJA:0, JNT:0, JNE:0,
-    SICEPAT:0, GTL:0, CARGO:0, INSTAN:0
-  };
+  const notif =
+    document.getElementById("loginNotif");
 
-  data.forEach(row => {
-    let tr = document.createElement("tr");
+  notif.innerText = message;
 
-    Object.keys(count).forEach(k => {
-      let td = document.createElement("td");
-      td.innerText = row[k] || "";
-      tr.appendChild(td);
+  notif.style.display = "block";
 
-      if (row[k]) count[k]++;
-    });
-
-    tbody.appendChild(tr);
-  });
-
-  document.getElementById("count").innerText =
-    Object.entries(count).map(([k,v]) => `${k}:${v}`).join(" | ");
 }
 
-document.getElementById("sheetSelect").addEventListener("change", loadData);
 
-// SCAN
-input.addEventListener("keydown", async function(e) {
-  if (e.key === "Enter") {
-    let resi = this.value.trim();
-    let toko = document.getElementById("tokoSelect").value;
+// ======================================================
+// LOGIN
+// ======================================================
 
-    if (!resi) return;
+async function login() {
 
-    let res = await fetch("http://localhost:5000/add", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ resi, toko })
-    });
+  const username =
+    document.getElementById("username")
+      .value
+      .trim();
 
-    let result = await res.json();
+  const password =
+    document.getElementById("password")
+      .value;
 
-    if (result.status === "duplicate") {
-      document.getElementById("errorSound").play();
-      showNotif("Resi sudah ada!");
+  if (!username || !password) {
+
+    showLoginNotif(
+      "Username dan password wajib diisi."
+    );
+
+    return;
+
+  }
+
+  try {
+
+    const response =
+      await fetch(`${API}/login`, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          username,
+          password
+        })
+
+      });
+
+    const result =
+      await response.json();
+
+    if (
+      result.status !== "success"
+    ) {
+
+      showLoginNotif(
+        result.message
+      );
+
+      return;
+
     }
 
-    this.value = "";
-    this.focus();
+    // simpan token
 
-    loadData();
+    localStorage.setItem(
+      "token",
+      result.token
+    );
+
+    currentUser = {
+
+      username:
+        result.username,
+
+      role:
+        result.role
+
+    };
+
+    showApplication();
+
+  } catch (error) {
+
+    showLoginNotif(
+      "Tidak dapat terhubung ke server."
+    );
+
+    console.error(error);
+
   }
-});
 
-// DOWNLOAD
-function downloadExcel() {
-  window.open("http://localhost:5000/export");
 }
 
-loadData();
+
+// ======================================================
+// SHOW APPLICATION
+// ======================================================
+
+function showApplication() {
+
+  document.getElementById(
+    "loginPage"
+  ).style.display = "none";
+
+  document.getElementById(
+    "appPage"
+  ).style.display = "block";
+
+
+  // ================================================
+  // USER INFO
+  // ================================================
+
+  const roleText =
+    currentUser.role === 1
+      ? "Role 1 - Ekspedisi"
+      : "Role 2 - Ekspedisi + Toko";
+
+  document.getElementById(
+    "userInfo"
+  ).innerText =
+    `${currentUser.username} | ${roleText}`;
+
+
+  // ================================================
+  // ROLE
+  // ================================================
+
+  const tokoContainer =
+    document.getElementById(
+      "tokoContainer"
+    );
+
+  const sheetSelect =
+    document.getElementById(
+      "sheetSelect"
+    );
+
+
+  if (currentUser.role === 1) {
+
+    // ==============================================
+    // ROLE 1
+    // ==============================================
+
+    tokoContainer.style.display =
+      "none";
+
+    sheetSelect.innerHTML = `
+      <option value="SEMUA">
+        SEMUA
+      </option>
+    `;
+
+  } else {
+
+    // ==============================================
+    // ROLE 2
+    // ==============================================
+
+    tokoContainer.style.display =
+      "block";
+
+    sheetSelect.innerHTML = `
+
+      <option value="TOKOA">
+        TOKO A
+      </option>
+
+      <option value="TOKOB">
+        TOKO B
+      </option>
+
+      <option value="TOKOC">
+        TOKO C
+      </option>
+
+      <option value="TOKOD">
+        TOKO D
+      </option>
+
+      <option value="TOKOE">
+        TOKO E
+      </option>
+
+      <option value="SEMUA">
+        SEMUA
+      </option>
+
+    `;
+
+  }
+
+  loadData();
+
+  input.focus();
+
+}
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+async function logout() {
+
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  try {
+
+    await fetch(
+      `${API}/logout`,
+      {
+
+        method: "POST",
+
+        headers: {
+
+          Authorization:
+            token
+
+        }
+
+      }
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+  localStorage.removeItem(
+    "token"
+  );
+
+  currentUser = null;
+
+  document.getElementById(
+    "appPage"
+  ).style.display = "none";
+
+  document.getElementById(
+    "loginPage"
+  ).style.display = "block";
+
+  document.getElementById(
+    "username"
+  ).value = "";
+
+  document.getElementById(
+    "password"
+  ).value = "";
+
+}
+
+
+// ======================================================
+// LOAD DATA
+// ======================================================
+
+async function loadData() {
+
+  const sheet =
+    document.getElementById(
+      "sheetSelect"
+    ).value;
+
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  try {
+
+    const response =
+      await fetch(
+        `${API}/sheet/${sheet}`,
+        {
+
+          headers: {
+
+            Authorization:
+              token
+
+          }
+
+        }
+      );
+
+    if (
+      response.status === 401
+    ) {
+
+      logout();
+
+      return;
+
+    }
+
+    if (
+      response.status === 403
+    ) {
+
+      showNotif(
+        "Kamu tidak memiliki akses."
+      );
+
+      return;
+
+    }
+
+    const data =
+      await response.json();
+
+
+    const tbody =
+      document.querySelector(
+        "#dataTable tbody"
+      );
+
+    tbody.innerHTML = "";
+
+
+    const count = {
+
+      SPX: 0,
+
+      ANTERAJA: 0,
+
+      JNT: 0,
+
+      JNE: 0,
+
+      SICEPAT: 0,
+
+      GTL: 0,
+
+      CARGO: 0,
+
+      INSTAN: 0
+
+    };
+
+
+    data.forEach(row => {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      Object.keys(count)
+        .forEach(k => {
+
+          const td =
+            document.createElement(
+              "td"
+            );
+
+          td.innerText =
+            row[k] || "";
+
+          tr.appendChild(td);
+
+          if (row[k]) {
+
+            count[k]++;
+
+          }
+
+        });
+
+
+      tbody.appendChild(tr);
+
+    });
+
+
+    document.getElementById(
+      "count"
+    ).innerText =
+
+      Object.entries(count)
+
+        .map(
+          ([key, value]) =>
+            `${key}: ${value}`
+        )
+
+        .join(" | ");
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+// ======================================================
+// SHEET CHANGE
+// ======================================================
+
+document
+  .getElementById(
+    "sheetSelect"
+  )
+  .addEventListener(
+    "change",
+    loadData
+  );
+
+
+// ======================================================
+// SCAN
+// ======================================================
+
+input.addEventListener(
+  "keydown",
+  async function(e) {
+
+    if (
+      e.key !== "Enter"
+    ) {
+
+      return;
+
+    }
+
+    // ==============================================
+    // AMBIL RAW INPUT
+    // ==============================================
+
+    const raw =
+      this.value.trim();
+
+    if (!raw) {
+
+      return;
+
+    }
+
+
+    // ==============================================
+    // AMBIL HANYA RESI
+    // ==============================================
+    //
+    // Contoh:
+    //
+    // SPX123456 BUDI 14:30
+    //
+    // menjadi:
+    //
+    // SPX123456
+    //
+
+    const resi =
+      raw
+        .split(/\s+/)[0]
+        .toUpperCase();
+
+
+    // ==============================================
+    // TOKO
+    // ==============================================
+
+    let toko = null;
+
+    if (
+      currentUser.role === 2
+    ) {
+
+      toko =
+        document.getElementById(
+          "tokoSelect"
+        ).value;
+
+    }
+
+
+    try {
+
+      const token =
+        localStorage.getItem(
+          "token"
+        );
+
+
+      const response =
+        await fetch(
+          `${API}/add`,
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/json",
+
+              Authorization:
+                token
+
+            },
+
+            body: JSON.stringify({
+
+              resi,
+
+              toko
+
+            })
+
+          }
+        );
+
+
+      if (
+        response.status === 401
+      ) {
+
+        logout();
+
+        return;
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      // ==========================================
+      // DUPLICATE
+      // ==========================================
+
+      if (
+        result.status ===
+        "duplicate"
+      ) {
+
+        const sound =
+          document.getElementById(
+            "errorSound"
+          );
+
+        sound.currentTime = 0;
+
+        sound.play()
+          .catch(() => {});
+
+
+        showNotif(
+          `Resi ${result.resi} sudah ada!`,
+          "error"
+        );
+
+      }
+
+
+      // ==========================================
+      // SUCCESS
+      // ==========================================
+
+      else if (
+        result.status ===
+        "success"
+      ) {
+
+        // Tidak perlu alert.
+        //
+        // Scanner langsung siap
+        // menerima resi berikutnya.
+
+        loadData();
+
+      }
+
+
+      // ==========================================
+      // ERROR
+      // ==========================================
+
+      else {
+
+        showNotif(
+          result.message ||
+          "Gagal memasukkan resi.",
+          "error"
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      showNotif(
+        "Server tidak dapat dihubungi.",
+        "error"
+      );
+
+    }
+
+
+    // ==============================================
+    // KOSONGKAN INPUT
+    // ==============================================
+
+    this.value = "";
+
+    this.focus();
+
+  }
+);
+
+
+// ======================================================
+// DOWNLOAD EXCEL
+// ======================================================
+
+function downloadExcel() {
+
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  // Karena /export membutuhkan
+  // Authorization, kita tidak bisa
+  // sekadar window.open().
+  //
+  // Gunakan fetch lalu download blob.
+
+  fetch(
+    `${API}/export`,
+    {
+
+      headers: {
+
+        Authorization:
+          token
+
+      }
+
+    }
+  )
+  .then(response => {
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Gagal download Excel"
+      );
+
+    }
+
+    return response.blob();
+
+  })
+  .then(blob => {
+
+    const url =
+      window.URL.createObjectURL(
+        blob
+      );
+
+    const a =
+      document.createElement(
+        "a"
+      );
+
+    a.href = url;
+
+    a.download =
+      `scan-${new Date()
+        .toISOString()
+        .slice(0, 10)}.xlsx`;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    window.URL.revokeObjectURL(
+      url
+    );
+
+  })
+  .catch(error => {
+
+    console.error(error);
+
+    showNotif(
+      "Gagal download Excel.",
+      "error"
+    );
+
+  });
+
+}
+
+
+// ======================================================
+// CEK LOGIN SAAT HALAMAN DIBUKA
+// ======================================================
+
+async function checkLogin() {
+
+  const token =
+    localStorage.getItem(
+      "token"
+    );
+
+  if (!token) {
+
+    document.getElementById(
+      "loginPage"
+    ).style.display = "block";
+
+    document.getElementById(
+      "appPage"
+    ).style.display = "none";
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${API}/me`,
+        {
+
+          headers: {
+
+            Authorization:
+              token
+
+          }
+
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      localStorage.removeItem(
+        "token"
+      );
+
+      return;
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    currentUser = {
+
+      username:
+        result.username,
+
+      role:
+        result.role
+
+    };
+
+
+    showApplication();
+
+  } catch (error) {
+
+    console.error(error);
+
+    localStorage.removeItem(
+      "token"
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// ENTER PADA LOGIN
+// ======================================================
+
+document
+  .getElementById(
+    "password"
+  )
+  .addEventListener(
+    "keydown",
+    function(e) {
+
+      if (
+        e.key === "Enter"
+      ) {
+
+        login();
+
+      }
+
+    }
+  );
+
+
+// ======================================================
+// START
+// ======================================================
+
+checkLogin();
+
 </script>
 
 </body>
